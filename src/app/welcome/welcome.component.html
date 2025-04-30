@@ -1,0 +1,79 @@
+<div class="filters">
+    <input [(ngModel)]="filters.name" placeholder="Name">
+    <input [(ngModel)]="filters.author" placeholder="Author">
+  
+
+  <mat-form-field appearance="fill">
+    <mat-select class="sorting" [(ngModel)]="filters.languages" placeholder="Choose languages:" multiple>   
+        <mat-option value="english">English</mat-option>
+        <mat-option value="japanese">日本語</mat-option>
+        <mat-option value="russian">Русский</mat-option>
+        <mat-option value="korean">한국어</mat-option>
+    </mat-select>  
+  </mat-form-field>
+
+
+  <mat-form-field>
+    <mat-label>Categories</mat-label>
+    <mat-select class="sorting" [(ngModel)]="filters.category" multiple>
+      <mat-option *ngFor="let category of availableCategories" [value]="category">
+        {{ category }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+  <mat-form-field appearance="fill">
+    <mat-label>Sort by</mat-label>
+    <mat-select class="sorting" [(ngModel)]="sortBy">
+      <mat-option value="default">No sorting</mat-option>
+      <mat-option value="priceAsc">Price: by ascending</mat-option>
+      <mat-option value="priceDesc">Price: by descending</mat-option>
+      <mat-option value="rating">Rating</mat-option>
+      <mat-option value="name">Name (A-Z)</mat-option>
+    </mat-select>
+  </mat-form-field>
+  
+  <div class="rating-filter">
+    <p>Rating:</p>
+    <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+      <mat-icon
+        (click)="setRatingFilter(star)"
+        [ngClass]="{ 'selected': filters.rating === star }"
+      >{{ filters.rating >= star ? 'star' : 'star_border' }}</mat-icon>
+    </ng-container>
+    <mat-icon (click)="setRatingFilter(0)" [ngClass]="{ 'selected': filters.rating === 0 }">close</mat-icon>
+  </div>
+  
+  <button mat-button (click)="resetFilters()">Reset filters</button>
+  
+</div>
+
+<!--  -->
+<div class="catalog-grid">
+  <mat-card class="product-card" 
+  *ngFor="let product of getFilteredProducts()" 
+  (click)="goToDetail(product.id)">
+  <img mat-card-image [src]="product.imageUrl" alt="{{product.name}}">
+  <mat-card-content>  
+      <h3>{{ product.name }}</h3>
+      <p>{{ product.author }}</p>
+      <p><strong>{{ product.price | currency:'EUR' }}</strong></p>
+      <p>⭐ {{ getRating(product.reviews) }} ({{ product.reviews.length }})</p>
+    </mat-card-content>
+
+    <div class="cart-actions" (click)="$event.stopPropagation()">
+      <ng-container *ngIf="showQuantityMap[product.id]; else addBtn">
+        <mat-form-field appearance="fill" class="quantity-input">
+          <mat-label>Quantity</mat-label>
+          <input matInput type="number" [(ngModel)]="quantityMap[product.id]" min="1">
+        </mat-form-field>
+    
+        <button mat-raised-button color="primary" (click)="confirmAdd(product)">Confirm</button>
+      </ng-container>
+      
+      <ng-template #addBtn>
+        <button mat-stroked-button color="primary" (click)="addToCart(product, $event);">
+          Add to cart
+        </button>
+      </ng-template>
+</div>

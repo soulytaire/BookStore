@@ -1,0 +1,40 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 1;
+  }
+  
+.profile-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    padding: 1rem;
+  }
+  
+  .profile-card {
+    width: 35%;
+    background-color: #eae5d0;
+    color: #000;           
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  input, textarea {
+    color: #000;
+  }
+
+  .btn-container {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+  button .btn-container {width: 25%;}
+
+
+.snackbar-error {
+  background-color: #e53935;
+  color: #fff;
+}
+  

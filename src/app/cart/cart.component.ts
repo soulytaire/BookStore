@@ -20,7 +20,7 @@ export class CartComponent {
   paymentMethod!: 'card' | 'cash' | 'online';
   isConfirmed: boolean = false;
 
-  delivery: boolean = true; // true = delivery
+  delivery: boolean = true;
   deliveryFee: number = 5;
   minFreeDeliveryAmount: number = 50;
 
@@ -104,7 +104,6 @@ checkout(): void {
     }
 
     if (!this.userName) {
-      //throw new Error('Please enter your name.');
       this.snackBar.open("Please enter your name.", 'Close', {
         duration: 3000,
         verticalPosition: 'top',
@@ -112,18 +111,6 @@ checkout(): void {
       });
       return;
     }
-
-    if (this.delivery) {
-      if (!this.address) {
-        //throw new Error('Please fill in your shipping address.');
-        this.snackBar.open("Please fill in your shipping address.", 'Close', {
-          duration: 3000,
-          verticalPosition: 'top',
-          panelClass: ['snackbar-error']
-        });
-        return;
-      }
-
     if (!this.paymentMethod) {
       this.snackBar.open('Please select a payment method.', 'Close', {
         duration: 3000,
@@ -132,6 +119,17 @@ checkout(): void {
       });
       return;
     }
+    if (this.delivery) {
+      if (!this.address) {
+        this.snackBar.open("Please fill in your shipping address.", 'Close', {
+          duration: 3000,
+          verticalPosition: 'top',
+          panelClass: ['snackbar-error']
+        });
+        return;
+      }
+
+    
 
     if (total < this.minFreeDeliveryAmount && this.cartItems.length !== 0) {
       const confirmExtra = confirm(`Sum of order less than ${this.minFreeDeliveryAmount}€. Delivery service will add +${this.deliveryFee}€. Do you want to proceed?`);
@@ -141,8 +139,6 @@ checkout(): void {
       this.address = 'Pickup';
       deliveryFee = 0; // if pickup — no delivery
     }
-
-    
     
   }
 

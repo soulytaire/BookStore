@@ -1,0 +1,32 @@
+<div *ngIf="product">
+  <h2>{{ product.name }}</h2>
+  <img [src]="product.imageUrl" alt="{{ product.name }}">
+  
+    <p><strong>Author:</strong> {{ product.author }}</p>
+    <p><strong>Price:</strong> {{ product.price }}€</p>
+    <p><strong>Rating:</strong> {{ getRating(product.reviews) }}</p>
+    <div class="rating-stars">
+      <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
+        <mat-icon *ngIf="getRating(product.reviews) >= star">star</mat-icon>
+        <mat-icon *ngIf="getRating(product.reviews) >= star - 0.5 && getRating(product.reviews) < star">star_half</mat-icon>
+        <mat-icon *ngIf="getRating(product.reviews) < star - 0.5">star_border</mat-icon>
+      </ng-container>
+    </div>
+    <div *ngIf="!showQuantity">
+      <button mat-stroked-button color="primary" (click)="startAdding()">Add to cart</button>
+    </div>
+
+    <div *ngIf="showQuantity" class="quantity-container">
+      <mat-form-field appearance="fill">
+        <mat-label>Quantity</mat-label>
+        <input matInput type="number" [(ngModel)]="quantity" min="1">
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="confirmAdd()">Confirm</button>
+    </div>
+    <h3>Reviews:</h3>
+  <div *ngFor="let review of product.reviews">
+    <p><strong>{{ review.userName }}:</strong> {{ review.rating }}★</p>
+    <p>{{ review.comment }}</p>
+    <hr>
+  </div>
+</div>

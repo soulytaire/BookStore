@@ -1,0 +1,50 @@
+<div class="auth-container">
+  <form #f="ngForm" (ngSubmit)="register()">
+
+    <h2>Sign up</h2>
+  <mat-form-field appearance="fill">
+    <mat-label>Email</mat-label>
+    <input matInput type="email" name="email" [(ngModel)]="user.email" required email>
+    <mat-error *ngIf="f.submitted && !user.email">Enter email</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Password</mat-label>
+    <input matInput type="password" name="password" [(ngModel)]="user.password" required minlength="8">
+    <mat-error *ngIf="f.submitted && (!user.password || user.password.length < 8)">
+      Password must be not less than 8 characters
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput name="name" [(ngModel)]="user.name" required>
+    <mat-error *ngIf="f.submitted && !user.name">Name is required</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Address</mat-label>
+    <textarea matInput name="address" [(ngModel)]="user.address"></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Phone number</mat-label>
+    <input matInput [(ngModel)]="user.phone">
+  </mat-form-field>
+  
+  <mat-form-field>
+    <mat-label>Categories</mat-label>
+    <mat-select class="sorting" [(ngModel)]="user.preferredCategories" multiple>
+      <mat-option *ngFor="let category of categories" [value]="category">
+        {{ category }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div class="button-container">
+    <button mat-raised-button color="primary" type="submit">
+      Login
+    </button>
+  </div>
+
+  </form>
+</div>

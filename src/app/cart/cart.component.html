@@ -1,0 +1,63 @@
+<div class="cart-container">
+  <h2>Cart</h2>
+  
+  <p *ngIf="cartItems.length === 0">Cart is empty.</p>
+
+
+  <div *ngFor="let item of cartItems" class="cart-item">
+    <div>
+      <strong>{{ item.name }}</strong><br>
+      Price: {{ item.price | currency:'EUR'}} × 
+      <input type="number" [(ngModel)]="item.quantity"
+       min="1"
+       class="quantity-input"
+       (change)="updateQuantity(item.productId, item.quantity)">
+    </div>
+    <button mat-icon-button color="warn" (click)="removeItem(item.productId)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+
+  
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="userName">
+  </mat-form-field>
+
+  <div class="form-section">
+    <mat-label>Choose delivery:</mat-label>
+  <mat-radio-group [(ngModel)]="delivery" required>
+    <mat-radio-button [value]="true">Delivery</mat-radio-button>
+    <mat-radio-button [value]="false">Pick-up</mat-radio-button>
+  </mat-radio-group>
+  </div>
+
+  <div class="form-section" *ngIf="delivery">
+  <mat-form-field appearance="fill">
+    <mat-label>Address</mat-label>
+    <textarea matInput [(ngModel)]="address"></textarea>
+  </mat-form-field>
+  </div>
+
+
+  <div class="form-section">
+    <mat-label>Payment method:</mat-label>
+    <mat-radio-group [(ngModel)]="paymentMethod">
+      <mat-radio-button value="card">Card</mat-radio-button>
+      <mat-radio-button value="cash">Cash</mat-radio-button>
+      <mat-radio-button value="online">Online card</mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  <div class="cart-summary">
+    <p>Price for items: <strong>{{ getSubtotal() | currency:'EUR' }}</strong></p>
+
+    <p *ngIf="getDeliveryFee() > 0"> Delivery: <strong>{{ getDeliveryFee() | currency:'EUR' }}</strong></p>
+    <mat-divider></mat-divider>
+    
+    <p><strong>Total: {{ getTotalWithDelivery() | currency:'EUR' }}</strong></p>
+  </div>
+
+  <button mat-raised-button color="primary" (click)="checkout()">Place an order</button>
+  
+</div>

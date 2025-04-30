@@ -1,0 +1,31 @@
+<div class="login-container">
+  <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="login-form">
+    
+    <h2>Login</h2>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" name="email" ngModel required #emailInput="ngModel">  
+      <mat-error *ngIf="emailInput.invalid && emailInput.touched">Enter correct email</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" hintLabel="Please enter minimum 8 characters.">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" name="password" ngModel required minlength="8" #passInput="ngModel">
+      <mat-error *ngIf="passInput.invalid && passInput.touched">Password must be not less than 8 characters</mat-error>
+    </mat-form-field>
+    <div style="text-align:center">
+      <a routerLink="/signup">I do not have an account</a>
+    </div>
+    <div class="button-container">
+      <button mat-raised-button color="primary" type="submit" [disabled]="f.invalid">
+        Login
+      </button>
+    </div>
+
+    <mat-label *ngIf="errorExists" class="error">{{ errorText }}</mat-label>
+    
+    
+
+  </form>
+</div>

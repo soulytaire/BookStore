@@ -1,0 +1,6 @@
+.rating-stars {
+  display: flex;
+  align-items: center;
+  color: #fbc02d;
+  font-size: 20px;
+}

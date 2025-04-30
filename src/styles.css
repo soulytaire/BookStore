@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+html, body { height: 100%; }
+/*body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
+html, body {
+    font-family: Arial, sans-serif;
+    background: #f7f7f7;
+    margin: 0;
+    padding: 0;
+  }
+  
+  mat-card {
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  }
+  
+  button {
+    text-transform: none;
+    font-weight: 500;
+  }

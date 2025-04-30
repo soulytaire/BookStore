@@ -1,0 +1,102 @@
+<h2>Your orders</h2>
+
+<mat-tab-group>
+  <mat-tab label="Active">
+    
+      <mat-card *ngFor="let order of activeOrders" class="order-card">
+        <mat-card-title>Order #{{ order.id }} — {{ order.status }}</mat-card-title>
+      
+        <mat-card-content>
+          <p><strong>Date:</strong> {{ order.timestamp | date: 'short' }}</p>
+          <p><strong>Address:</strong> {{ order.location.address }}</p>
+          <p><strong>Payment:</strong> {{ order.payment }}</p>
+          <p><strong>Items:</strong></p>
+          <ul>
+            <li *ngFor="let item of order.products">
+              <a [routerLink]="['/product/', item.productId]">
+                {{ item.name }}
+              </a> — {{ item.quantity }} × {{ item.price | currency:'EUR' }}
+            </li>
+          </ul>
+          <p><strong>Total:</strong> {{ getTotal(order) | currency:'EUR'}}</p>
+          <button *ngIf="order.status === 'pending' || order.status === 'processing'"
+                  mat-stroked-button class="cancel"
+                  (click)="cancelOrder(order.id)">
+            Cancel Order
+          </button>
+        </mat-card-content>
+      </mat-card>
+    
+  </mat-tab>
+
+  <mat-tab label="Completed">
+     <mat-card *ngFor="let order of completedOrders" class="order-card" class="completed">
+        <mat-card-title>Order #{{ order.id }} — {{ order.status }}</mat-card-title>
+      
+        <mat-card-content>
+          <p><strong>Date:</strong> {{ order.timestamp | date: 'short' }}</p>
+          <p><strong>Address:</strong> {{ order.location.address }}</p>
+          <p><strong>Payment:</strong> {{ order.payment }}</p>
+          <p><strong>Items:</strong></p>
+          <ul>
+            <li *ngFor="let item of order.products">
+              <a [routerLink]="['/product/', item.productId]">{{ item.name }}</a>
+              — {{ item.quantity }} × {{ item.price | currency:'EUR' }}
+              
+              <div class="review-form">
+                <mat-form-field appearance="fill">
+                  <mat-label>Rating</mat-label>
+                  <mat-select [(ngModel)]="reviewMap[item.productId].rating">
+                    <mat-option *ngFor="let r of [1, 2, 3, 4, 5]" [value]="r">{{ r }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+        
+                <mat-form-field appearance="fill">
+                  <input matInput placeholder="Comment" [(ngModel)]="reviewMap[item.productId].comment">
+                </mat-form-field>
+        
+                <button mat-raised-button color="primary" (click)="submitReview(item.productId)">
+                  Submit review
+                </button>
+              </div>
+            </li>
+          </ul>
+          <p><strong>Total:</strong> {{ getTotal(order) | currency:'EUR'}}</p>
+      
+          <button *ngIf="order.status === 'pending' || order.status === 'processing'"
+                  (click)="cancelOrder(order.id)">
+            Cancel Order
+          </button>
+        </mat-card-content>
+      </mat-card>
+  </mat-tab>
+
+  <mat-tab label="Canceled">
+    <mat-card *ngFor="let order of canceledOrders" class="order-card" class="canceled">
+  <mat-card-title>Order #{{ order.id }} — {{ order.status }}</mat-card-title>
+
+  <mat-card-content>
+    <p><strong>Date:</strong> {{ order.timestamp | date: 'short' }}</p>
+    <p><strong>Address:</strong> {{ order.location.address }}</p>
+    <p><strong>Payment:</strong> {{ order.payment }}</p>
+    <p><strong>Items:</strong></p>
+    <ul>
+      <li *ngFor="let item of order.products">
+        <a [routerLink]="['/product/', item.productId]">
+          {{ item.name }}
+        </a> — {{ item.quantity }} × {{ item.price | currency:'EUR' }}
+      </li>
+    </ul>
+    <p><strong>Total:</strong> {{ getTotal(order) | currency:'EUR'}}</p>
+    <button *ngIf="order.status === 'pending' || order.status === 'processing'"
+            mat-stroked-button color="warn"
+            (click)="cancelOrder(order.id)">
+      Cancel Order
+    </button>
+  </mat-card-content>
+</mat-card>
+
+  </mat-tab>
+</mat-tab-group>
+
+<div *ngIf="orders.length === 0">No orders.</div>
