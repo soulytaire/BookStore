@@ -1,0 +1,53 @@
+This is book and manga store implemented with using Angular. 
+The project supports user authentication and profile editing, catalog browsing and filtering, cart management and order creation.
+
+
+- Authentication
+-- User registration and login with form (name, email, password, phone) validation
+-- Current user stored using service/localStorage
+
+- Product Catalog
+-- Displays books and manga with image, price, rating, and reviews in card of product (actually idk what's wrong with loading image but it's not showing)
+
+Supports filtering by:
+- Title
+- Author
+- Language (multi-select)
+- Category (multi-select)
+- Rating (via star icons)
+
+- Sorting: by price, rating, or name
+
+And reset filters / apply user's preferred categories automatically
+
+- Cart !(-- only after user is logged in)
+
+-- Add product from catalog or from product detail page
+
+-- Choose quantity before creating order
+
+-- View subtotal, delivery cost (if under 50€), and total
+
+-- Choose delivery or pick-up option
+
+-- Choose payment method (required)
+
+
+- Orders
+View order history in tabs: Active, Completed, Canceled
+
+-- Cancel active orders
+
+-- View order details (products, date, total)
+
+- Reviews !(only available for completed orders)
+--  Submit one review per product (rating + comment)
+
+-- Reviews include user name, rating, and date
+
+- Profile
+-- View and edit personal data: name, email, phone, address, preferred categories
+
+-- Changes are validated and saved
+
+I wish I could make better styling
